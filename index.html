@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋招进度跟踪</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>秋招进度跟踪</h1>
+            <div class="header-buttons">
+                <button id="exportBtn" class="btn-secondary">导出数据</button>
+                <button id="addBtn" class="btn-primary">添加申请</button>
+            </div>
+        </header>
+        
+        <main>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">总申请数:</span>
+                    <span id="totalCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">进行中:</span>
+                    <span id="activeCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">已获Offer:</span>
+                    <span id="offerCount" class="stat-value">0</span>
+                </div>
+            </div>
+            
+            <div class="applications-container">
+                <div class="filter-sort-container">
+                    <h2>申请列表</h2>
+                    <div class="filter-sort-controls">
+                        <div class="filter-group">
+                            <label for="statusFilter">状态筛选:</label>
+                            <select id="statusFilter">
+                                <option value="">全部</option>
+                                <option value="准备中">准备中</option>
+                                <option value="已投递">已投递</option>
+                                <option value="笔试">笔试</option>
+                                <option value="一面">一面</option>
+                                <option value="二面">二面</option>
+                                <option value="三面">三面</option>
+                                <option value="HR面">HR面</option>
+                                <option value="Offer">Offer</option>
+                                <option value="已拒绝">已拒绝</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="sortBy">排序方式:</label>
+                            <select id="sortBy">
+                                <option value="dateDesc">日期 (最新优先)</option>
+                                <option value="dateAsc">日期 (最早优先)</option>
+                                <option value="companyAsc">公司名称 (A-Z)</option>
+                                <option value="companyDesc">公司名称 (Z-A)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="searchInput">搜索:</label>
+                            <input type="text" id="searchInput" placeholder="公司或职位名称">
+                        </div>
+                    </div>
+                </div>
+                <div id="applicationsList" class="applications-list">
+                    <!-- 申请记录将在这里动态生成 -->
+                    <div class="empty-message">暂无申请记录，点击"添加申请"开始跟踪</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 添加/编辑申请的模态框 -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">添加申请</h2>
+            <form id="applicationForm">
+                <input type="hidden" id="applicationId">
+                
+                <div class="form-group">
+                    <label for="company">公司名称 *</label>
+                    <input type="text" id="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="position">职位名称 *</label>
+                    <input type="text" id="position" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="applyDate">投递日期 *</label>
+                    <input type="date" id="applyDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">当前状态 *</label>
+                    <select id="status" required>
+                        <option value="准备中">准备中</option>
+                        <option value="已投递">已投递</option>
+                        <option value="笔试">笔试</option>
+                        <option value="一面">一面</option>
+                        <option value="二面">二面</option>
+                        <option value="三面">三面</option>
+                        <option value="HR面">HR面</option>
+                        <option value="Offer">Offer</option>
+                        <option value="已拒绝">已拒绝</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobLink">职位链接</label>
+                    <input type="url" id="jobLink">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">备注</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">保存</button>
+                    <button type="button" class="btn-secondary" id="cancelBtn">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 确认删除的模态框 -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content confirm-modal">
+            <h2>确认删除</h2>
+            <p>确定要删除这条申请记录吗？此操作无法撤销。</p>
+            <div class="form-actions">
+                <button id="confirmDeleteBtn" class="btn-danger">删除</button>
+                <button id="cancelDeleteBtn" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // 全局函数，用于内联事件调用
+        function undoDelete() {
+            // 这个函数会调用script.js中的undoDelete函数
+            if (typeof window.undoDelete === 'function') {
+                window.undoDelete();
+            }
+        }
+    </script>
+</body>
+</html>
